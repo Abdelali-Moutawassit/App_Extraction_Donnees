@@ -1,0 +1,2 @@
+C:/Users/Lenovo/Desktop/Flutter Projects/adria_app_styles/android/app/.cxx/Debug/6x4l2j1c/x86/CMakeFiles/edit_cache.dir
+C:/Users/Lenovo/Desktop/Flutter Projects/adria_app_styles/android/app/.cxx/Debug/6x4l2j1c/x86/CMakeFiles/rebuild_cache.dir

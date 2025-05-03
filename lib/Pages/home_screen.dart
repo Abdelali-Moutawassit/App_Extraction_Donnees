@@ -37,7 +37,7 @@ class HomeScreen extends StatelessWidget {
                   flex: 1,
                   child: Center(
                     child: Image(
-                      image: AssetImage('images/gif2.gif'),
+                      image: AssetImage('images/image2.png'),
                       width: 500,
                       height: 500,
                     ),

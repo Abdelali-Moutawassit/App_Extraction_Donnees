@@ -26,7 +26,6 @@ class _ScanFaceScreenState extends State<ScanFaceScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          // Image de fond
           Container(
             width: double.infinity,
             height: double.infinity,
@@ -39,7 +38,6 @@ class _ScanFaceScreenState extends State<ScanFaceScreen> {
             ),
           ),
 
-          // Overlay noir semi-transparent
           Container(
             width: double.infinity,
             height: double.infinity,
@@ -90,7 +88,6 @@ class SuccessScreen extends StatelessWidget {
         ),
       ),
 
-      // Overlay noir semi-transparent
       Container(
         width: double.infinity,
         height: double.infinity,

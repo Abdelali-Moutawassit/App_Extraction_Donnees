@@ -41,6 +41,12 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  introduction_screen: ^3.1.17
+  shared_preferences: ^2.5.3
+  google_fonts: ^6.2.1
+  carousel_slider: ^5.0.0
+  flutter_bloc: ^9.1.1
+  equatable:
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -65,6 +71,7 @@ flutter:
     - images/
     - images/gif.gif
     - images/gif2.gif
+    - images/logo_kyc.png
     # - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

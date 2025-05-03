@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:adria_kyc_integration/adria_kyc_integration.dart';
 
 class ScanScreen extends StatefulWidget {
-  final String method; // Méthode choisie par l'utilisateur : 'old', 'new'
+  final String method;
 
   const ScanScreen({super.key, required this.method});
 
@@ -23,18 +23,120 @@ class _ScanScreenState extends State<ScanScreen> {
   }
 
   Future<void> _startScan() async {
+    setState(() {
+      isLoading = true;
+      scanResult = null;
+    });
+
     Map<String, dynamic>? result;
 
-    if (widget.method == 'old') {
-      result = await kyc.scanOldCin();
-    } else if (widget.method == 'new') {
-      result = await kyc.scanNewCin();
+    try {
+      if (widget.method == 'old') {
+        result = await kyc.scanOldCin();
+      } else if (widget.method == 'new') {
+        result = await kyc.scanNewCin();
+      }
+    } catch (e) {
+      result = null;
     }
 
     setState(() {
       scanResult = result;
       isLoading = false;
     });
+
+    if (result == null) {
+      _showScanErrorDialog();
+    }
+  }
+
+  void _showScanErrorDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+              child: Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.15),
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: Colors.white.withOpacity(0.3)),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Row(
+                      children: [
+                        Icon(Icons.error_outline, color: Colors.red, size: 28),
+                        SizedBox(width: 10),
+                        Text(
+                          'Échec du scan',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    const Text(
+                      'Une erreur est survenue lors du scan de la carte. Veuillez réessayer.',
+                      style: TextStyle(fontSize: 16, color: Colors.white),
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            _startScan();
+                          },
+                          style: TextButton.styleFrom(
+                            backgroundColor: Colors.blueAccent.withOpacity(0.8),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 10),
+                          ),
+                          child: const Text(
+                            'Réessayer',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            Navigator.of(context)
+                                .pop();
+                          },
+                          child: const Text(
+                            'Annuler',
+                            style: TextStyle(color: Colors.white70),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -42,7 +144,7 @@ class _ScanScreenState extends State<ScanScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          // Background image
+          // Background
           SizedBox(
             width: double.infinity,
             height: double.infinity,
@@ -52,14 +154,12 @@ class _ScanScreenState extends State<ScanScreen> {
             ),
           ),
 
-          // Glassmorphism overlay
           Container(
             width: double.infinity,
             height: double.infinity,
             color: Colors.black.withOpacity(0.4),
           ),
 
-          // Back button
           Positioned(
             top: 45,
             left: 20,
@@ -81,13 +181,11 @@ class _ScanScreenState extends State<ScanScreen> {
                     ),
                   ],
                 ),
-                child:
-                    const Icon(Icons.arrow_back, color: Colors.white, size: 24),
+                child: const Icon(Icons.arrow_back, color: Colors.white, size: 24),
               ),
             ),
           ),
 
-          // Result card
           SafeArea(
             child: Center(
               child: isLoading
@@ -142,11 +240,9 @@ class _ScanScreenState extends State<ScanScreen> {
                                   ),
                                   ...scanResult!.entries.map((entry) {
                                     return Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 6),
+                                      padding: const EdgeInsets.symmetric(vertical: 6),
                                       child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Expanded(
                                             flex: 3,
@@ -179,10 +275,7 @@ class _ScanScreenState extends State<ScanScreen> {
                             ),
                           ),
                         )
-                      : const Text(
-                          'Échec du scan',
-                          style: TextStyle(color: Colors.white),
-                        ),
+                      : const SizedBox.shrink(),
             ),
           ),
         ],

@@ -11,7 +11,6 @@ class MethodChoiceScreen extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          // Background Image
           Container(
             width: double.infinity,
             height: double.infinity,
@@ -24,7 +23,6 @@ class MethodChoiceScreen extends StatelessWidget {
             ),
           ),
 
-          // Dark Overlay
           Container(
             width: double.infinity,
             height: double.infinity,
@@ -66,7 +64,7 @@ class MethodChoiceScreen extends StatelessWidget {
                 BuildScanButton(
                   context,
                   label: 'Ancienne carte d\'identité',
-                  icon: Icons.credit_card, // ou autre selon ta logique
+                  icon: Icons.credit_card,
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -80,7 +78,7 @@ class MethodChoiceScreen extends StatelessWidget {
                 BuildScanButton(
                   context,
                   label: 'Nouvelle carte d\'identité',
-                  icon: Icons.contact_mail, // ou un autre qui représente bien
+                  icon: Icons.contact_mail,
                   onPressed: () {
                     Navigator.push(
                       context,
