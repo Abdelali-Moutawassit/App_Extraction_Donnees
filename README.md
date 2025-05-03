@@ -90,7 +90,7 @@ flutter:
 
 ---
 
-## 👩‍💻 Auteur
+## 👨‍💻 Auteur
 
 **ABDELALI MOUTAWASSIT**
 🔗 [GitHub]() • 🌐 [Portfolio]()
